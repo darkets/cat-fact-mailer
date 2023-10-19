@@ -32,7 +32,13 @@ class Application
                 exit;
             }
 
-            $this->mail->send($email, $catFact);
+            $result = $this->mail->send($email, $catFact);
+
+            if ($result['success']) {
+                echo $result['message'] . PHP_EOL;
+            } else {
+                echo $result['message'] . PHP_EOL;
+            }
         }
     }
 }

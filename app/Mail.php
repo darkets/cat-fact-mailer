@@ -22,7 +22,7 @@ class Mail
         $this->mail->Password = $_ENV['MAIL_PASSWORD'];
     }
 
-    public function send(string $address, string $fact): void
+    public function send(string $address, string $fact): array
     {
         try {
             $this->mail->Subject = 'Your daily dose of random cat facts';
@@ -30,8 +30,15 @@ class Mail
             $this->mail->setFrom('from@example.com', 'Cat Fact');
             $this->mail->addAddress($address);
             $this->mail->send();
+            return [
+                'success' => true,
+                'message' => 'Fact was sent to your email!',
+            ];
         } catch (Exception $e) {
-            echo "Message could not be sent. Mailer Error: {$this->mail->ErrorInfo}" . PHP_EOL;
+            return [
+                'success' => false,
+                'message' => "Message could not be sent. Mailer Error: {$this->mail->ErrorInfo}"
+            ];
         }
     }
 }
