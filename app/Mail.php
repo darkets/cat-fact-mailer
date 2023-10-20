@@ -24,21 +24,24 @@ class Mail
 
     public function send(string $address, string $fact): array
     {
+        $result = [
+            'success' => false,
+            'message' => '.'
+        ];
+
         try {
             $this->mail->Subject = 'Your daily dose of random cat facts';
             $this->mail->Body = $fact;
             $this->mail->setFrom('from@example.com', 'Cat Fact');
             $this->mail->addAddress($address);
             $this->mail->send();
-            return [
-                'success' => true,
-                'message' => 'Fact was sent to your email!',
-            ];
+            $result['success'] = true;
+            $result['message'] = 'Check your email!';
         } catch (Exception $e) {
-            return [
-                'success' => false,
-                'message' => "Message could not be sent. Mailer Error: {$this->mail->ErrorInfo}"
-            ];
+            $result['success'] = false;
+            $result['message'] = "Message could not be sent. Mailer Error: {$this->mail->ErrorInfo}";
         }
+
+        return $result;
     }
 }
